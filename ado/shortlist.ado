@@ -3,8 +3,7 @@
 **Grading applications and first shortlisting*
 ** August 2019*******************************
 **********************************************
-*Purpose
-* When 
+
 
 *! Mathew Bidinlib 
 *!mbidinlib@poverty-action.com
