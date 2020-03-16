@@ -10,7 +10,7 @@ IPA Ghana conducts external recruitment of candidates for multiple roles. This s
 
 ```stata
 net install shortlist, all replace ///
-	from("https://raw.githubusercontent.com/mbidinlib/shortlist/edit/master/ado")
+	from("https://raw.githubusercontent.com/mbidinlib/shortlist/master/ado")
 ```
 
 ## Syntax
