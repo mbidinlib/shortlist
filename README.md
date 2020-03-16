@@ -10,7 +10,7 @@ IPA Ghana conducts external recruitment of candidates for multiple roles. This s
 
 # Syntax
 
-* gradeapplication using ("full path ti criteria sheet")
+* gradeapplication using (full path ti criteria sheet)
 
 
 
