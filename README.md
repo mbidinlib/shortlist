@@ -15,7 +15,7 @@ net install shortlist, all replace ///
 
 ## Syntax
 
-* gradeapplication using (full path ti criteria sheet)
+* gradeapplication using (full path to criteria sheet)
 
 
 
