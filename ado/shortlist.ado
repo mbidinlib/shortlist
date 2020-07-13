@@ -8,9 +8,9 @@
 *! Mathew Bidinlib 
 *!mbidinlib@poverty-action.com
 
-cap prog drop gradeapplication
+cap prog drop shortlist
 
-prog define gradeapplication
+prog define shortlist
 
 	syntax using/,clear
 
