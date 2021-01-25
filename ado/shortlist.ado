@@ -161,9 +161,10 @@ prog define shortlist
 		drop if _merge==1
 		drop _merge
 
+		*keep raw data in a tempfile
+		tempfile `raw_data_sheet
+		save `raw_data_sheet' ,replace
 		
-		export excel using "`folder'/`output'.xlsx", sheet(raw) sheetreplace firstrow(varl)
-
 		*export excel using $folder/$output, first replace
 		*Total Score
 		egen total_score= rowtotal(nsc_*)
@@ -218,8 +219,14 @@ prog define shortlist
 
   }
   
-  noi di "Selection completed"
-  noi di "{hline}"
+	* Export Raw sheet
+	******************
+	noi di "Sheet 4" _column(30)  "Raw Applications"
+	use `raw_data_sheet', clear
+	export excel using "`folder'/`output'.xlsx", sheet(raw) sheetreplace firstrow(varl)
+
+	noi di "Selection completed"
+	noi di "{hline}"
 
 end
 
