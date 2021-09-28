@@ -177,8 +177,8 @@ prog define shortlist
 		
 		*selected
 		if strlen("`select_num'")>=1 {
-			gen selected= "Yes" if ranking<= `select_num'
-			replace selected= "No" if ranking> `select_num'
+			gen selected= "Yes" if total_score > 0 & ranking <= `select_num'
+			replace selected= "No" if total_score > 0 & ranking> `select_num'
 		}
 		else gen selected="Yes"
 		
@@ -190,31 +190,42 @@ prog define shortlist
 		loc savevars "`savevar' nsc* total_score ranking selected"
 		drop if missing(username)
 		
+		* selected candidates
 		noi di "{title: Exporting Sheets}"
 		noi di "Sheet 1" _column(30)  "Selected candidates"
-		export excel `savevar' nsc* total_score ranking selected if total_score>0 & selected== "Yes"  using "`outfile'", sheet(selected) cell("B2") sheetreplace firstrow(varl)
+		export excel `savevar' nsc* total_score ranking selected if total_score > 0 & selected== "Yes"  using "`outfile'", sheet(selected) cell("B2") sheetreplace firstrow(varl)
 		
 		*Format Sheet containing selected candidates
 		count if total_score>0 & selected== "Yes"
 		loc  rows = r(N)
-		mata: sheet_format("selected")
+		if `rows' >= 1 mata: sheet_format("selected")
 		
 		
-		no di "Sheet 2" _column(30)  "Candidates Not Selected"
-		cap export excel `savevar' nsc* total_score ranking selected if total_score>0 & selected== "No"   using "`outfile'", sheet(not_selected) cell("B2") sheetreplace firstrow(varl)
-		
-		*format sheet containing not selected candidates
+		*Not selected candidates
 		count if total_score>0 & selected== "No" 
 		loc  rows = r(N)
+		
+		if `rows' >= 1 {
+				no di "Sheet 2" _column(30)  "Candidates Not Selected"
+				cap export excel `savevar' nsc* total_score ranking selected if total_score>0 & selected== "No"   using "`outfile'", sheet(not_selected) cell("B2") sheetreplace firstrow(varl)
+		
+		*format sheet containing not selected candidates
 		mata: sheet_format("not_selected")
+
+		}
 		
-		noi di "Sheet 3" _column(30)  "Candidates Dropped"
-		export excel `savevar' nsc* total_score ranking selected if total_score<0  using "`outfile'", sheet(dropped) cell("B2") sheetreplace firstrow(varl)
-		
-		*Format sheet of dropped candidates
+		*Dropped candidates
 		count if total_score<0
 		loc  rows = r(N)
-		mata: sheet_format("dropped")
+
+		if `rows' >= 1 {		
+			noi di "Sheet 3" _column(30)  "Candidates Dropped"
+			cap export excel `savevar' nsc* total_score ranking selected if total_score<0  using "`outfile'", sheet(dropped) cell("B2") sheetreplace firstrow(varl)
+		
+		*Format sheet of dropped candidates
+		 mata: sheet_format("dropped")
+
+		}
 
 
   }
